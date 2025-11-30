@@ -52,6 +52,7 @@ class ClassController extends Controller
                     'studentId' => $attendance->student->nidn_npm,
                     'studentName' => $attendance->student->name,
                     'timestamp' => $attendance->created_at->toIso8601String(),
+                    'photo_url' => $attendance->photo_path ? url('storage/' . $attendance->photo_path) : null,
                 ];
             });
 
