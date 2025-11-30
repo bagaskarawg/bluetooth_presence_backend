@@ -10,6 +10,7 @@ class Attendance extends Model
         'class_id',
         'student_id',
         'timestamp',
+        'photo_path',
     ];
 
     protected $casts = [

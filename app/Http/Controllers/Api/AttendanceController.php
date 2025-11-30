@@ -10,13 +10,22 @@ class AttendanceController extends Controller
 {
     public function store(Request $request)
     {
-        $request->validate(['class_id' => 'required|exists:classes,id']);
+        $request->validate([
+            'class_id' => 'required|exists:classes,id',
+            'photo' => 'required|image|max:2048', // Max 2MB
+        ]);
         
+        $path = null;
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('attendance_photos', 'public');
+        }
+
         $attendance = Attendance::firstOrCreate([
             'class_id' => $request->class_id,
             'student_id' => $request->user()->id,
         ], [
             'timestamp' => now(),
+            'photo_path' => $path,
         ]);
 
         return $attendance;
