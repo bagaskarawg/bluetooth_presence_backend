@@ -42,6 +42,7 @@ class AttendanceController extends Controller
                     'id' => $attendance->id,
                     'class_name' => $attendance->classSession->name,
                     'timestamp' => $attendance->created_at->toIso8601String(),
+                    'photo_url' => $attendance->photo_path ? url('storage/' . $attendance->photo_path) : null,
                 ];
             });
     }
