@@ -36,4 +36,25 @@ class ClassController extends Controller
 
         return $class;
     }
+
+    public function attendance(Request $request, $id)
+    {
+        $class = $request->user()->classes()->findOrFail($id);
+        
+        $attendances = $class->attendances()
+            ->with('student')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($attendance) {
+                return [
+                    'id' => $attendance->id,
+                    'classSessionId' => $attendance->class_id,
+                    'studentId' => $attendance->student->nidn_npm,
+                    'studentName' => $attendance->student->name,
+                    'timestamp' => $attendance->created_at->toIso8601String(),
+                ];
+            });
+
+        return $attendances;
+    }
 }
