@@ -21,4 +21,19 @@ class AttendanceController extends Controller
 
         return $attendance;
     }
+
+    public function index(Request $request)
+    {
+        return $request->user()->attendances()
+            ->with('classSession')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($attendance) {
+                return [
+                    'id' => $attendance->id,
+                    'class_name' => $attendance->classSession->name,
+                    'timestamp' => $attendance->created_at->toIso8601String(),
+                ];
+            });
+    }
 }
