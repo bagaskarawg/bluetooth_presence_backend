@@ -57,4 +57,9 @@ class ClassController extends Controller
 
         return $attendances;
     }
+
+    public function show($id)
+    {
+        return \App\Models\ClassSession::findOrFail($id);
+    }
 }
