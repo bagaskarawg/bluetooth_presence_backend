@@ -13,7 +13,15 @@ class AttendanceController extends Controller
         $request->validate([
             'class_id' => 'required|exists:classes,id',
             'photo' => 'required|image|max:2048', // Max 2MB
+            'otp' => 'required|string|size:6',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
+
+        $class = \App\Models\ClassSession::findOrFail($request->class_id);
+        if ($class->otp !== $request->otp) {
+            return response()->json(['message' => 'Kode OTP salah.'], 422);
+        }
         
         $path = null;
         if ($request->hasFile('photo')) {
@@ -26,6 +34,8 @@ class AttendanceController extends Controller
         ], [
             'timestamp' => now(),
             'photo_path' => $path,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
 
         return $attendance;

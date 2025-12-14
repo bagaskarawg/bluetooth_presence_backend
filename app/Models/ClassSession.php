@@ -14,6 +14,7 @@ class ClassSession extends Model
         'is_active',
         'start_time',
         'end_time',
+        'otp',
     ];
 
     protected $casts = [

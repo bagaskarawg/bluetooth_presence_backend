@@ -11,6 +11,8 @@ class Attendance extends Model
         'student_id',
         'timestamp',
         'photo_path',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [

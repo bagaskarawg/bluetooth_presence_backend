@@ -20,6 +20,7 @@ class ClassController extends Controller
             'name' => $request->name,
             'is_active' => true,
             'start_time' => now(),
+            'otp' => str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT),
         ]);
 
         return $class;
